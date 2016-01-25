@@ -1,0 +1,37 @@
+{
+  "name": "asticode/php-cache-manager",
+  "type": "library",
+  "description": "Cache manager for PHP",
+  "keywords": [
+    "php",
+    "cache",
+    "manager"
+  ],
+  "homepage": "https://github.com/asticode/php-cache-manager",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Quentin RENARD",
+      "email": "contact@asticode.com",
+      "homepage": "http://asticode.com",
+      "role": "Developer"
+    }
+  ],
+  "require": {
+    "php": ">=5.3.0"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^4.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "Asticode\\CacheManager\\": "src/"
+    }
+  },
+  "scripts": {
+    "test": [
+      "php vendor/bin/phpunit"
+    ],
+    "phpunit": "php vendor/bin/phpunit"
+  }
+}
