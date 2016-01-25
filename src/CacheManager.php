@@ -18,7 +18,7 @@ class CacheManager
         // Initialize
         $this->sNamespace = $sNamespace;
         $this->aHandlers = [];
-        $this->aNameToPriorityMapping = [];
+        $this->aPriorityToNameMapping = [];
         $this->sDefaultHandlerName = '';
     }
 
@@ -116,7 +116,7 @@ class CacheManager
 
     }
 
-    public function set($sKey, $oData, $iTTL)
+    public function set($sKey, $oData, $iTTL = -1)
     {
 
     }
