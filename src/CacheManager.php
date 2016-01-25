@@ -10,7 +10,6 @@ class CacheManager
     private $sNamespace;
     private $aHandlers;
     private $aPriorityToNameMapping;
-    private $sDefaultHandlerName;
 
     // Construct
     public function __construct($sNamespace = 'Asticode\\CacheManager\\Handler')
@@ -19,7 +18,6 @@ class CacheManager
         $this->sNamespace = $sNamespace;
         $this->aHandlers = [];
         $this->aPriorityToNameMapping = [];
-        $this->sDefaultHandlerName = '';
     }
 
     /**
@@ -27,11 +25,10 @@ class CacheManager
      * @param $sClassName
      * @param $iPriority
      * @param array $aConfig
-     * @param bool $bDefaultHandler
      * @param string $sNamespace
      * @return CacheManager
      */
-    public function addHandler($sHandlerName, $sClassName, $iPriority, array $aConfig, $bDefaultHandler = false, $sNamespace = '')
+    public function addHandler($sHandlerName, $sClassName, $iPriority, array $aConfig, $sNamespace = '')
     {
         // Get class name
         $sClassName = ExtendedString::toCamelCase(sprintf(
@@ -65,32 +62,6 @@ class CacheManager
         $this->aPriorityToNameMapping[$iPriority] = $sHandlerName;
         ksort($this->aPriorityToNameMapping);
 
-        // Default handler
-        if ($bDefaultHandler) {
-            $this->sDefaultHandlerName = $sHandlerName;
-        }
-
-        // Return
-        return $this;
-    }
-
-    /**
-     * @param $sHandlerName
-     * @return CacheManager
-     */
-    public function setDefaultHandlerName($sHandlerName)
-    {
-        // Handler name is valid
-        if (!isset($this->aHandlers[$sHandlerName])) {
-            throw new RuntimeException(sprintf(
-                'Invalid handler name %s',
-                $sHandlerName
-            ));
-        }
-
-        // Set default handler
-        $this->sDefaultHandlerName = $sHandlerName;
-
         // Return
         return $this;
     }
@@ -113,17 +84,22 @@ class CacheManager
 
     public function get($sKey)
     {
-
-    }
-
-    public function set($sKey, $oData, $iTTL = -1)
-    {
-
+        // Loop through priorities
+        foreach ($this->aPriorityToNameMapping as $sHandlerName) {
+            $oData = $this->getHandler($sHandlerName)->get($sKey);
+            if (!is_null($oData)) {
+                return $oData;
+            }
+        }
+        return null;
     }
 
     public function del($sKey)
     {
-
+        // Loop through priorities
+        foreach ($this->aPriorityToNameMapping as $sHandlerName) {
+            $this->getHandler($sHandlerName)->del($sKey);
+        }
     }
 }
 
