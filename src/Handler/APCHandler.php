@@ -12,7 +12,7 @@ class APCHandler extends AbstractHandler implements HandlerInterface
         parent::__construct($aConfig);
 
         // Check APC is loaded
-        if (!extension_loaded('apc')) {
+        if (!extension_loaded('apc') && !extension_loaded('apcu')) {
             throw new RuntimeException('APC extension is not loaded');
         }
     }
@@ -20,7 +20,7 @@ class APCHandler extends AbstractHandler implements HandlerInterface
     public function get($sKey)
     {
         $bSuccess = false;
-        $sValue = apc_fetch($this->getKey($sKey), $bSuccess);
+        $sValue = apc_store($this->getKey($sKey), $bSuccess);
         return $bSuccess ? $this->unserialize($sValue) : null;
     }
 
