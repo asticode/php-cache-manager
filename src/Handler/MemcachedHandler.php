@@ -17,6 +17,17 @@ class MemcachedHandler extends AbstractHandler implements HandlerInterface
         // Parent construct
         parent::__construct($aConfig);
 
+        // Extend config
+        $aConfig = ExtendedArray::extendWithDefaultValues(
+            $aConfig,
+            [
+                'connection_timeout' => 10,
+                'server_failure_limit' => 5,
+                'remove_failed_servers' => true,
+                'retry_timeout' => 1,
+            ]
+        );
+
         // Check required keys
         ExtendedArray::checkRequiredKeys(
             $aConfig,
@@ -32,11 +43,11 @@ class MemcachedHandler extends AbstractHandler implements HandlerInterface
 
         // Create client
         $this->oClient = new Memcached();
-        $this->oClient->setOption(Memcached::OPT_CONNECT_TIMEOUT, 10);
+        $this->oClient->setOption(Memcached::OPT_CONNECT_TIMEOUT, $aConfig['connection_timeout']);
         $this->oClient->setOption(Memcached::OPT_DISTRIBUTION, Memcached::DISTRIBUTION_CONSISTENT);
-        $this->oClient->setOption(Memcached::OPT_SERVER_FAILURE_LIMIT, count($aConfig['servers']));
-        $this->oClient->setOption(Memcached::OPT_REMOVE_FAILED_SERVERS, true);
-        $this->oClient->setOption(Memcached::OPT_RETRY_TIMEOUT, 1);
+        $this->oClient->setOption(Memcached::OPT_SERVER_FAILURE_LIMIT, $aConfig['server_failure_limit']);
+        $this->oClient->setOption(Memcached::OPT_REMOVE_FAILED_SERVERS, $aConfig['remove_failed_servers']);
+        $this->oClient->setOption(Memcached::OPT_RETRY_TIMEOUT, $aConfig['retry_timeout']);
         $this->oClient->addServers($aConfig['servers']);
     }
 
