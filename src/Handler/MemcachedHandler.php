@@ -26,9 +26,9 @@ class MemcachedHandler extends AbstractHandler implements HandlerInterface
             ]
         );
 
-        // Check Memcached is installed
-        if (!class_exists('\Memcached')) {
-            throw new RuntimeException('Memcached is not installed');
+        // Check Memcached is loaded
+        if (!extension_loaded('memcached')) {
+            throw new RuntimeException('Memcached extension is not loaded');
         }
 
         // Create client
