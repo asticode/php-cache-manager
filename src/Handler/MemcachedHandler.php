@@ -21,8 +21,7 @@ class MemcachedHandler extends AbstractHandler implements HandlerInterface
         ExtendedArray::checkRequiredKeys(
             $aConfig,
             [
-                'host',
-                'port',
+                'servers',
             ]
         );
 
@@ -33,7 +32,12 @@ class MemcachedHandler extends AbstractHandler implements HandlerInterface
 
         // Create client
         $this->oClient = new Memcached();
-        $this->oClient->addServer($aConfig['host'], $aConfig['port']);
+        $this->oClient->setOption(Memcached::OPT_CONNECT_TIMEOUT, 10);
+        $this->oClient->setOption(Memcached::OPT_DISTRIBUTION, Memcached::DISTRIBUTION_CONSISTENT);
+        $this->oClient->setOption(Memcached::OPT_SERVER_FAILURE_LIMIT, count($aConfig['servers']));
+        $this->oClient->setOption(Memcached::OPT_REMOVE_FAILED_SERVERS, true);
+        $this->oClient->setOption(Memcached::OPT_RETRY_TIMEOUT, 1);
+        $this->oClient->addServers($aConfig['servers']);
     }
 
     public function get($sKey)
