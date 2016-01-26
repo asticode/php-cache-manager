@@ -37,4 +37,14 @@ abstract class AbstractHandler
     {
         return $this->sPrefix . $sKey;
     }
+
+    protected function serialize($oData)
+    {
+        return serialize($oData);
+    }
+
+    protected function unserialize($sValue)
+    {
+        return unserialize($sValue);
+    }
 }
