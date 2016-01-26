@@ -38,7 +38,7 @@ class MemcachedHandler extends AbstractHandler implements HandlerInterface
 
     public function get($sKey)
     {
-        $sValue = $this->oClient->get($sKey);
+        $sValue = $this->oClient->get($this->getKey($sKey));
         return $sValue ? $this->unserialize($sValue) : null;
     }
 
