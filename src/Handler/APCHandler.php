@@ -33,4 +33,12 @@ class APCHandler extends AbstractHandler implements HandlerInterface
     {
         return apc_exists($this->getKey($sKey)) ? apc_delete($this->getKey($sKey)) : true;
     }
+
+    public function test()
+    {
+        // Check APC is loaded
+        if (!extension_loaded('apc') && !extension_loaded('apcu')) {
+            throw new RuntimeException('APC extension is not loaded');
+        }
+    }
 }

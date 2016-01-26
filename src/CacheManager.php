@@ -101,5 +101,13 @@ class CacheManager
             $this->getHandler($sHandlerName)->del($sKey);
         }
     }
+
+    public function test()
+    {
+        // Loop through handlers
+        foreach ($this->aHandlers as $sHandlerName) {
+            $this->getHandler($sHandlerName)->test();
+        }
+    }
 }
 

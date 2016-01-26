@@ -23,4 +23,9 @@ interface HandlerInterface
      * @return bool Returns TRUE on success and FALSE on failure
      */
     public function del($sKey);
+
+    /**
+     * @return void An exception is thrown if the handler is not available
+     */
+    public function test();
 }

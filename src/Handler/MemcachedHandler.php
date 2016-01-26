@@ -67,4 +67,29 @@ class MemcachedHandler extends AbstractHandler implements HandlerInterface
         $bSuccess = $this->oClient->delete($this->getKey($sKey));
         return $this->oClient->getResultCode() !== Memcached::RES_NOTFOUND ? $bSuccess : true;
     }
+
+    public function test()
+    {
+        // Initialize
+        $sKey = 'key:test';
+        $sValue = 'test';
+
+        // Set value
+        $this->set($sKey, $sValue, 0);
+
+        // Get value
+        $sCacheValue = $this->get($sKey);
+
+        // Delete value
+        $this->del($sKey);
+
+        // Analyze cache value
+        if ($this->get($sKey) !== $sValue) {
+            throw new RuntimeException(sprintf(
+                'Cache value <%s> is not the expected value <%s>',
+                $sCacheValue,
+                $sValue
+            ));
+        }
+    }
 }
