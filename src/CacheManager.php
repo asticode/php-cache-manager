@@ -1,6 +1,7 @@
 <?php
 namespace Asticode\CacheManager;
 
+use Asticode\CacheManager\Handler\HandlerInterface;
 use Asticode\Toolbox\ExtendedString;
 use RuntimeException;
 
@@ -105,8 +106,9 @@ class CacheManager
     public function test()
     {
         // Loop through handlers
-        foreach ($this->aHandlers as $sHandlerName) {
-            $this->getHandler($sHandlerName)->test();
+        /** @var HandlerInterface $oHandler */
+        foreach ($this->aHandlers as $oHandler) {
+            $oHandler->test();
         }
     }
 }

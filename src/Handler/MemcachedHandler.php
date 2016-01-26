@@ -84,7 +84,7 @@ class MemcachedHandler extends AbstractHandler implements HandlerInterface
         $this->del($sKey);
 
         // Analyze cache value
-        if ($this->get($sKey) !== $sValue) {
+        if ($sCacheValue !== $sValue) {
             throw new RuntimeException(sprintf(
                 'Cache value <%s> is not the expected value <%s>',
                 $sCacheValue,
