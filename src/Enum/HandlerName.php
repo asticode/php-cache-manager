@@ -5,6 +5,6 @@ class HandlerName
 {
 
     const APC = 'APC';
-    const MEMCACHE = 'Memcache';
+    const MEMCACHED = 'Memcached';
 
 }

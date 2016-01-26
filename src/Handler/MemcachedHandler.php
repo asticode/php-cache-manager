@@ -1,20 +1,39 @@
 <?php
 namespace Asticode\CacheManager\Handler;
 
+use Asticode\Toolbox\ExtendedArray;
+use Memcached;
 use RuntimeException;
 
-class APCHandler extends AbstractHandler implements HandlerInterface
+class MemcachedHandler extends AbstractHandler implements HandlerInterface
 {
+    // Attributes
+    /** @var \Memcached $oClient */
+    private $oClient;
+
     // Constructor
     public function __construct(array $aConfig = [])
     {
         // Parent construct
         parent::__construct($aConfig);
 
-        // Check APC is loaded
-        if (!extension_loaded('apc')) {
-            throw new RuntimeException('APC extension is not loaded');
+        // Check required keys
+        ExtendedArray::checkRequiredKeys(
+            $aConfig,
+            [
+                'host',
+                'port',
+            ]
+        );
+
+        // Check Memcached is installed
+        if (!class_exists('Memcached')) {
+            throw new RuntimeException('Memcached is not installed');
         }
+
+        // Create client
+        $this->oClient = (new Memcached())
+            ->addServer($aConfig['host'], $aConfig['port']);
     }
 
     public function get($sKey)
