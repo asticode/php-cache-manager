@@ -32,8 +32,8 @@ class MemcachedHandler extends AbstractHandler implements HandlerInterface
         }
 
         // Create client
-        $this->oClient = (new Memcached())
-            ->addServer($aConfig['host'], $aConfig['port']);
+        $this->oClient = new Memcached();
+        $this->oClient->addServer($aConfig['host'], $aConfig['port']);
     }
 
     public function get($sKey)
