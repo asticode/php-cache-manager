@@ -6,10 +6,11 @@ use Asticode\Toolbox\ExtendedArray;
 abstract class AbstractHandler
 {
     // Attributes
+
     protected $sPrefix;
     protected $iTTL;
 
-    protected function __construct(array &$aConfig)
+    protected function __construct(array $aConfig)
     {
         // Extend config
         $aConfig = ExtendedArray::extendWithDefaultValues(
@@ -33,7 +34,7 @@ abstract class AbstractHandler
         return intval($iTTL);
     }
 
-    protected function getKey($sKey)
+    protected function buildKey($sKey)
     {
         return $this->sPrefix . $sKey;
     }

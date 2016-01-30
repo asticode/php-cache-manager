@@ -20,18 +20,18 @@ class APCHandler extends AbstractHandler implements HandlerInterface
     public function get($sKey)
     {
         $bSuccess = false;
-        $sValue = apc_fetch($this->getKey($sKey), $bSuccess);
+        $sValue = apc_fetch($this->buildKey($sKey), $bSuccess);
         return $bSuccess ? $this->unserialize($sValue) : null;
     }
 
     public function set($sKey, $oData, $iTTL = -1)
     {
-        return apc_store($this->getKey($sKey), $this->serialize($oData), $this->getTTL($iTTL));
+        return apc_store($this->buildKey($sKey), $this->serialize($oData), $this->getTTL($iTTL));
     }
 
     public function del($sKey)
     {
-        return apc_exists($this->getKey($sKey)) ? apc_delete($this->getKey($sKey)) : true;
+        return apc_exists($this->buildKey($sKey)) ? apc_delete($this->buildKey($sKey)) : true;
     }
 
     public function test()

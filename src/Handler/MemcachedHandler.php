@@ -53,18 +53,18 @@ class MemcachedHandler extends AbstractHandler implements HandlerInterface
 
     public function get($sKey)
     {
-        $sValue = $this->oClient->get($this->getKey($sKey));
+        $sValue = $this->oClient->get($this->buildKey($sKey));
         return $sValue ? $this->unserialize($sValue) : null;
     }
 
     public function set($sKey, $oData, $iTTL = -1)
     {
-        return $this->oClient->set($this->getKey($sKey), $this->serialize($oData), $this->getTTL($iTTL));
+        return $this->oClient->set($this->buildKey($sKey), $this->serialize($oData), $this->getTTL($iTTL));
     }
 
     public function del($sKey)
     {
-        $bSuccess = $this->oClient->delete($this->getKey($sKey));
+        $bSuccess = $this->oClient->delete($this->buildKey($sKey));
         return $this->oClient->getResultCode() !== Memcached::RES_NOTFOUND ? $bSuccess : true;
     }
 
