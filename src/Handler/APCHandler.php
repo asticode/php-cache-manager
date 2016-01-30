@@ -26,7 +26,7 @@ class APCHandler extends AbstractHandler implements HandlerInterface
 
     public function set($sKey, $oData, $iTTL = -1)
     {
-        return apc_store($this->buildKey($sKey), $this->serialize($oData), $this->getTTL($iTTL));
+        return apc_store($this->buildKey($sKey), $this->serialize($oData), $this->buildTTL($iTTL));
     }
 
     public function del($sKey)

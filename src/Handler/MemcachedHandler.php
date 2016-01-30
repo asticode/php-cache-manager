@@ -59,7 +59,7 @@ class MemcachedHandler extends AbstractHandler implements HandlerInterface
 
     public function set($sKey, $oData, $iTTL = -1)
     {
-        return $this->oClient->set($this->buildKey($sKey), $this->serialize($oData), $this->getTTL($iTTL));
+        return $this->oClient->set($this->buildKey($sKey), $this->serialize($oData), $this->buildTTL($iTTL));
     }
 
     public function del($sKey)

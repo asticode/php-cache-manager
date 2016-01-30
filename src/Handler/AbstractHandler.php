@@ -26,7 +26,7 @@ abstract class AbstractHandler
         $this->iTTL = intval($aConfig['ttl']);
     }
 
-    protected function getTTL($iTTL)
+    protected function buildTTL($iTTL)
     {
         if ($iTTL === -1) {
             return $this->iTTL;
