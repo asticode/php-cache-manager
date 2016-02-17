@@ -43,10 +43,6 @@ class MemcachedHandler extends AbstractHandler implements HandlerInterface
 
         // Add servers
         if (array_key_exists('servers', $aConfig)) {
-            $this->oClient->addServers($aConfig['servers']);
-
-            /*
-            // Add servers
             $aServers = explode(',', $aConfig['servers']);
             foreach ($aServers as $sAddress) {
                 // Valid address
@@ -60,7 +56,6 @@ class MemcachedHandler extends AbstractHandler implements HandlerInterface
                     $this->oClient->addServer($sHost, $sPort);
                 }
             }
-            */
         }
     }
 
