@@ -48,7 +48,9 @@ class MemcachedHandler extends AbstractHandler implements HandlerInterface
         $this->oClient->setOption(Memcached::OPT_SERVER_FAILURE_LIMIT, $aConfig['server_failure_limit']);
         $this->oClient->setOption(Memcached::OPT_REMOVE_FAILED_SERVERS, $aConfig['remove_failed_servers']);
         $this->oClient->setOption(Memcached::OPT_RETRY_TIMEOUT, $aConfig['retry_timeout']);
+        $this->oClient->addServers($aConfig['servers']);
 
+        /*
         // Add servers
         $aServers = explode(',', $aConfig['servers']);
         foreach ($aServers as $sAddress) {
@@ -63,11 +65,14 @@ class MemcachedHandler extends AbstractHandler implements HandlerInterface
                 $this->oClient->addServer($sHost, $sPort);
             }
         }
+        */
     }
 
     public static function createFromInstance(Memcached $oMemcached)
     {
-        $oHandler = new MemcachedHandler();
+        $oHandler = new MemcachedHandler([
+            'servers' => [],
+        ]);
         $oHandler->oClient = $oMemcached;
         return $oHandler;
     }
