@@ -53,7 +53,7 @@ class MemcachedHandler extends AbstractHandler implements HandlerInterface
                     $sHost = implode(':', $aExplodedServer);
 
                     // Add server
-                    $this->oClient->addServer($sHost, $sPort);
+                    $this->oClient->addServer($sHost, intval($sPort));
                 }
             }
         }
