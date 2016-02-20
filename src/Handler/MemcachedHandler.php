@@ -43,18 +43,13 @@ class MemcachedHandler extends AbstractHandler implements HandlerInterface
 
         // Add servers
         if (array_key_exists('servers', $aConfig)) {
-            $aServers = explode(',', $aConfig['servers']);
+            $aServers = array_filter(explode(',', $aConfig['servers']));
             foreach ($aServers as $sAddress) {
-                // Valid address
-                if (!empty($sAddress)) {
-                    // Initialize
-                    $aExplodedServer = explode(':', $sAddress);
-                    $sPort = array_pop($aExplodedServer);
-                    $sHost = implode(':', $aExplodedServer);
+                // Parse address
+                list($sHost, $sPort) = array_pad(explode(':', $sAddress), 2, '');
 
-                    // Add server
-                    $this->oClient->addServer($sHost, intval($sPort));
-                }
+                // Add server
+                $this->oClient->addServer($sHost, intval($sPort));
             }
         }
     }
